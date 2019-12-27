@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Import;
 @Import(ServiceConfiguration.class)
 public class QuoraApiApplication {
     public static void main(String[] args) {
-        SpringApplication.run(QuoraApiApplication.class, args);//nhnh
+        SpringApplication.run(QuoraApiApplication.class, args);
     }
 }
 
