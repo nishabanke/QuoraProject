@@ -30,11 +30,26 @@ public class SignupBusinessService {
         userEntity.setPassword(encryptedText[1]);
         UserEntity userByEmail = userDao.getUserByEmail(userEntity.getEmail());
         UserEntity userByUsername = userDao.getUserByUsername(userEntity.getUserName());
+		
+		/***
+		If the username provided already exists in the current database, 
+		throw ‘SignUpRestrictedException’ with the message code -
+		'SGR-001' and message - 'Try any other Username, this Username has already been taken'.
+		***/
+		
+		
         if (userByEmail != null){
 
             throw new SignUpRestrictedException("SGR-002" , "This user has already been registered, try with any other emailId");
 
         }
+		
+		/***
+		If the email Id provided by the user already exists in the current database, 
+		throw ‘SignUpRestrictedException’ with the message code -
+		'SGR-002' and message -'This user has already been registered, try with any other emailId'.
+		***/
+		
 
         else if (userByUsername !=null) {
             throw new SignUpRestrictedException("SGR-001" ,"Try any other Username, this Username has already been taken");
