@@ -2,7 +2,9 @@ package com.upgrad.quora.api.controller;
 
 import com.upgrad.quora.api.model.*;
 import com.upgrad.quora.service.business.AnswerBusinessService;
+import com.upgrad.quora.service.dao.QuestionDao;
 import com.upgrad.quora.service.entity.AnswerEntity;
+import com.upgrad.quora.service.entity.QuestionEntity;
 import com.upgrad.quora.service.exception.AnswerNotFoundException;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
 import com.upgrad.quora.service.exception.InvalidQuestionException;
@@ -23,6 +25,8 @@ public class AnswerController {
     @Autowired
     private AnswerBusinessService answerBusinessService;
 
+    @Autowired
+    private QuestionDao questionDao;
     /**
      * Create a answer for Question
      *
@@ -93,12 +97,16 @@ public class AnswerController {
     public ResponseEntity<List<AnswerDetailsResponse>> getAllAnswersToQuestion(@PathVariable("questionId") String questionId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, InvalidQuestionException {
         List<AnswerEntity> answers = answerBusinessService.getAllAnswersToQuestion(questionId, authorization);
         List<AnswerDetailsResponse> answerDetailsResponses = new ArrayList<>();
+
+        QuestionEntity questionEntity = questionDao.getQuestionById(questionId);
         for (AnswerEntity answerEntity : answers) {
-            AnswerDetailsResponse answerDetailsResponse = new AnswerDetailsResponse();
-            answerDetailsResponse.setId(answerEntity.getUuid());
-            answerDetailsResponse.setQuestionContent(answerEntity.getQuestion_id().getContent());
-            answerDetailsResponse.setAnswerContent(answerEntity.getAns());
-            answerDetailsResponses.add(answerDetailsResponse);
+            if(answerEntity.getQuestion_id().equals(questionDao.getQuestionById(questionId))){
+                AnswerDetailsResponse answerDetailsResponse = new AnswerDetailsResponse();
+                answerDetailsResponse.setId(answerEntity.getUuid());
+                answerDetailsResponse.setQuestionContent(answerEntity.getQuestion_id().getContent());
+                answerDetailsResponse.setAnswerContent(answerEntity.getAns());
+                answerDetailsResponses.add(answerDetailsResponse);
+            }
         }
         return new ResponseEntity<List<AnswerDetailsResponse>>(answerDetailsResponses, HttpStatus.OK);
     }
