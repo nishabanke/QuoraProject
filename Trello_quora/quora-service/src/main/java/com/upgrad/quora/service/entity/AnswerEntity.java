@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "answer", schema = "quora")
+@Table(name = "answer", schema = "public")
 @NamedQueries({
         @NamedQuery(name = "ansUuid", query = "select ans from AnswerEntity ans where ans.uuid =:uuid")
 })
