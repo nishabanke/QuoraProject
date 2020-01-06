@@ -26,8 +26,8 @@ public class AdminController {
      * @throws AuthorizationFailedException - if the access token is invalid or already logged out or user is not an admin or user with enetered uuid does not exist
      * @throws UserNotFoundException - if the user with given id is not present in the records.
      */
-    @RequestMapping(method = RequestMethod.DELETE, path = "/admin/users/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<UserDeleteResponse> getUser(@RequestHeader("authorization") final String authorization, @PathVariable("id") final String userUuid) throws AuthorizationFailedException, UserNotFoundException {
+    @RequestMapping(method = RequestMethod.DELETE, path = "/admin/user/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<UserDeleteResponse> getUser(@RequestHeader("authorization") final String authorization, @PathVariable("userId") final String userUuid) throws AuthorizationFailedException, UserNotFoundException {
         String uid = userAdminBusinessService.deleteUser(userUuid, authorization);
 
         UserDeleteResponse userDeleteResponse =  new UserDeleteResponse().id(uid).status("USER SUCCESSFULLY DELETED");

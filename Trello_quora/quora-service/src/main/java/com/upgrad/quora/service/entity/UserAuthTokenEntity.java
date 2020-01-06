@@ -12,48 +12,47 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Entity
-@Table(name = "user_auth", schema = "quora")
+@Table(name = "user_auth", schema = "public")
 @NamedQueries({
-        @NamedQuery(name = "userAuthTokenByAccessToken", query = "select ut from UserAuthTokenEntity ut where ut.accessToken =:accessToken")
+        @NamedQuery(name = "userAuthTokenByAccessToken", query = "select ut from UserAuthTokenEntity ut where ut.accessToken = :accessToken ")
 })
 public class UserAuthTokenEntity implements Serializable {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
 
-    @Column(name = "uuid")
-    @Size(max = 64)
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "UUID")
     private String uuid;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "USER_ID")
     private UserEntity user;
 
-    @Column(name = "access_token")
+    @Column(name = "ACCESS_TOKEN")
     @NotNull
     @Size(max = 500)
     private String accessToken;
 
-
-    @Column(name = "expires_at")
-    @NotNull
-    private ZonedDateTime expiresAt;
-
-    @Column(name = "login_at")
+    @Column(name = "LOGIN_AT")
     @NotNull
     private ZonedDateTime loginAt;
 
-    @Column(name = "logout_at")
+    @Column(name = "EXPIRES_AT")
+    @NotNull
+    private ZonedDateTime expiresAt;
+
+    @Column(name = "LOGOUT_AT")
     private ZonedDateTime logoutAt;
 
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
